@@ -13,10 +13,10 @@ Lo studio, i clienti, le persone, gli importi e le date sono d'esempio, e la pri
 
 ## Indirizzo
 
-Con Cloudflare Pages (cartella di output `public`) l'indirizzo è:
+Il sito è un Worker di Cloudflare con soli file statici (`wrangler.jsonc`: cartella `public`). L'indirizzo è:
 
 ```
-https://<progetto>.pages.dev/lawee-umhudb/
+https://lawee.<sottodominio>.workers.dev/lawee-umhudb/
 ```
 
 La radice del sito non elenca la demo. `public/_headers` e `public/robots.txt` chiedono ai motori di ricerca di non indicizzare nulla, e lo dice anche la pagina.
@@ -28,11 +28,12 @@ Link utili dentro la demo:
 
 ## Pubblicare
 
-Il sito si aggiorna da solo a ogni push su `main`. Impostazioni del progetto Cloudflare Pages:
+Il sito si aggiorna da solo a ogni push su `main`. Impostazioni del Worker su Cloudflare (Workers Builds):
 
-- Framework preset: **None**
 - Build command: *(vuoto)*
-- Build output directory: **`public`**
+- Deploy command: `npx wrangler deploy`
+
+Il nome in `wrangler.jsonc` (`lawee`) deve restare uguale al nome del Worker.
 
 ## Modificare la demo
 

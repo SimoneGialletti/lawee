@@ -1,0 +1,6 @@
+// Cloudflare Workers: only static files, served from public/ (with public/_headers).
+{
+  "name": "lawee",
+  "compatibility_date": "2025-10-01",
+  "assets": { "directory": "./public" }
+}
