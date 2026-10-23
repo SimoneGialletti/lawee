@@ -588,7 +588,10 @@ table.t { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .smsgs h1 + h1 { color: var(--text-2); }
 .scta { display: grid; justify-items: center; gap: 10px; }
 .scta .btn { height: 44px; padding: 0 20px; font-size: 15px; }
-.contacts a { color: var(--accent-text); font-weight: 600; text-decoration: none; }
+a.btn { text-decoration: none; }
+.contacts { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; font-size: 14px; }
+.contacts a { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-text); font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
+.contacts a .ic { width: 15px; height: 15px; }
 .slate .by { font: 500 12px/1 var(--f-sans); letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); }
 
 /* ─── Lawee, narrower (container queries on the app) ─────────────────────── */

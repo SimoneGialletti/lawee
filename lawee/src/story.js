@@ -255,7 +255,7 @@ return {
     full: { title: "Hai visto tutta la demo", text: "Una mattina di studio: ogni messaggio al suo posto, ogni risposta con la sua fonte.", next: "1", label: "Rivedi il minuto" },
   },
   // The addresses for the last screen («Richiedi una prova»). Empty: the button shows without a link.
-  contacts: [],
+  contacts: ["alessandro.mazzoni97@gmail.com", "matteobernardo19@gmail.com"],
   data, initial, steps,
 };
 })();

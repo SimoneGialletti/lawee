@@ -598,7 +598,10 @@ table.t { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .smsgs h1 + h1 { color: var(--text-2); }
 .scta { display: grid; justify-items: center; gap: 10px; }
 .scta .btn { height: 44px; padding: 0 20px; font-size: 15px; }
-.contacts a { color: var(--accent-text); font-weight: 600; text-decoration: none; }
+a.btn { text-decoration: none; }
+.contacts { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; font-size: 14px; }
+.contacts a { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-text); font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
+.contacts a .ic { width: 15px; height: 15px; }
 .slate .by { font: 500 12px/1 var(--f-sans); letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); }
 
 /* ─── Lawee, narrower (container queries on the app) ─────────────────────── */
@@ -1321,7 +1324,10 @@ function slate(S) {
   return `<div class="slate">
     <span class="slogo">${mark()}</span>
     <div class="smsgs"${T("slate-msgs")}><h1>La segreteria che non si licenzia.</h1><h1>Sai tutto del tuo cliente prima che te lo dica.</h1><h1>Ogni risposta con la sua fonte.</h1></div>
-    <div class="scta"${T("slate-cta")}>${btn("Richiedi una prova", { icon: "calendar", right: "arrow-right" })}${c.length ? `<p class="contacts">${c.map((m) => `<a href="mailto:${esc(m)}">${esc(m)}</a>`).join(" · ")}</p>` : ""}</div>
+    <div class="scta"${T("slate-cta")}>${c.length
+      ? `<a class="btn" href="mailto:${c.map(encodeURIComponent).join(",")}?subject=${encodeURIComponent("Richiesta di una prova di Lawee")}" target="_blank" rel="noopener">${ic("calendar")}Richiedi una prova${ic("arrow-right")}</a>
+         <p class="contacts">${c.map((m) => `<a href="mailto:${esc(m)}">${ic("mail")}${esc(m)}</a>`).join("")}</p>`
+      : btn("Richiedi una prova", { icon: "calendar", right: "arrow-right" })}</div>
     <p class="by">Lawee by Monolite</p>
   </div>`;
 }
@@ -1636,7 +1642,7 @@ return {
     full: { title: "Hai visto tutta la demo", text: "Una mattina di studio: ogni messaggio al suo posto, ogni risposta con la sua fonte.", next: "1", label: "Rivedi il minuto" },
   },
   // The addresses for the last screen («Richiedi una prova»). Empty: the button shows without a link.
-  contacts: [],
+  contacts: ["alessandro.mazzoni97@gmail.com", "matteobernardo19@gmail.com"],
   data, initial, steps,
 };
 })();

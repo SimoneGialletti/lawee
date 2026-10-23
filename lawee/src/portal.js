@@ -421,7 +421,10 @@ function slate(S) {
   return `<div class="slate">
     <span class="slogo">${mark()}</span>
     <div class="smsgs"${T("slate-msgs")}><h1>La segreteria che non si licenzia.</h1><h1>Sai tutto del tuo cliente prima che te lo dica.</h1><h1>Ogni risposta con la sua fonte.</h1></div>
-    <div class="scta"${T("slate-cta")}>${btn("Richiedi una prova", { icon: "calendar", right: "arrow-right" })}${c.length ? `<p class="contacts">${c.map((m) => `<a href="mailto:${esc(m)}">${esc(m)}</a>`).join(" · ")}</p>` : ""}</div>
+    <div class="scta"${T("slate-cta")}>${c.length
+      ? `<a class="btn" href="mailto:${c.map(encodeURIComponent).join(",")}?subject=${encodeURIComponent("Richiesta di una prova di Lawee")}" target="_blank" rel="noopener">${ic("calendar")}Richiedi una prova${ic("arrow-right")}</a>
+         <p class="contacts">${c.map((m) => `<a href="mailto:${esc(m)}">${ic("mail")}${esc(m)}</a>`).join("")}</p>`
+      : btn("Richiedi una prova", { icon: "calendar", right: "arrow-right" })}</div>
     <p class="by">Lawee by Monolite</p>
   </div>`;
 }
