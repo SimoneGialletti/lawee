@@ -249,7 +249,7 @@ function closeCard(run) {
 const cursor = $("#cursor");
 let cpos = null;
 function cursorHide() { cursor.classList.remove("on"); }
-const findT = (t) => document.querySelector(`[data-t="${t}"]`);
+const findT = (t) => { const all = [...document.querySelectorAll(`[data-t="${t}"]`)]; return all.find((e) => e.getClientRects().length) || all[0]; };
 async function point(t, tok, view) {
   let el = findT(t);
   const pane = view || (el ? (el.closest("#phone") ? "phone" : "comp") : null);
@@ -258,6 +258,16 @@ async function point(t, tok, view) {
     if (!(await sleep(380, tok))) return null;
   }
   el = findT(t);
+  // A target the product keeps behind another control (a menu under «Altro»): open that first.
+  const hop = (!el || !el.getClientRects().length) && P.via ? P.via(t, S) : null;
+  if (hop && hop.t !== t) {
+    if (!(await point(hop.t, tok, view))) return null;
+    tap();
+    if (!(await sleep(120, tok))) return null;
+    hop.open(S); render();
+    if (!(await sleep(300, tok))) return null;
+    el = findT(t);
+  }
   if (!el || !el.getClientRects().length) { MISSING.add(`${R.step + 1}:${t}`); return null; }
   // Bring it into view inside whatever scrolls around it (the page, a list, the sideways menu), and wait for the
   // scroll to settle before the cursor moves.

@@ -33,6 +33,7 @@ function inp(S, t, v, ph, o = {}) {
 // ─── The computer ────────────────────────────────────────────────────────────
 const NAV = [["today", "sun", "Oggi"], ["inbox", "inbox", "Inbox"], ["clients", "briefcase", "Clienti"], ["assist", "sparkles", "Assistente"], ["agenda", "calendar", "Agenda"], ["fees", "receipt", "Preventivi e parcelle", "Parcelle"], ["settings", "settings", "Impostazioni"], ["box", "server", "Lawee by Monolite", "Il box"]];
 const ROUTE_NAV = { client: "clients" };
+const EXTRA = ["clients", "fees", "settings", "box"];
 function compWho() {
   const p = D().people.chiara;
   return `<span class="wav">CF</span><span>Il computer di <b>${esc(p.short)}</b> · ${esc(p.name)}, ${esc(p.caption)}</span>`;
@@ -48,10 +49,15 @@ function comp(S) {
   if (r === "login") return `<div class="app bare">${login(S)}</div>`;
   if (r === "slate") return `<div class="app bare">${slate(S)}</div>`;
   const on = ROUTE_NAV[r] ?? r;
-  const nav = NAV.map(([k, i, l, short]) => {
+  const item = ([k, i, l, short]) => {
     const b = k === "inbox" ? inboxCount(S) : 0;
-    return `<div class="nv${on === k ? " on" : ""}"${T(`nav-${k}`)}>${ic(i)}<span class="nl">${l}</span><span class="ns">${short || l}</span>${b ? `<span class="nb">${b}</span>` : ""}</div>`;
-  }).join("");
+    return `<div class="nv${on === k ? " on" : ""}${EXTRA.includes(k) ? " x" : ""}"${T(`nav-${k}`)}>${ic(i)}<span class="nl">${l}</span><span class="ns">${short || l}</span>${b ? `<span class="nb">${b}</span>` : ""}</div>`;
+  };
+  // On a narrow screen the menu is a bottom bar of five: the others sit under «Altro», as the design system asks.
+  const more = S.comp.more && S.comp.more === r;
+  const cur = NAV.find(([k]) => k === on && EXTRA.includes(k));
+  const nav = NAV.map(item).join("") + `<div class="nv more${more || cur ? " on" : ""}"${T("nav-more")}>${ic(cur ? cur[1] : "ellipsis")}<span class="ns">${cur ? cur[3] || cur[2] : "Altro"}</span></div>`;
+  const sheet = more ? `<div class="msheet"><div class="mpanel">${NAV.filter(([k]) => EXTRA.includes(k)).map(item).join("")}</div></div>` : "";
   const pk = perimOf(S);
   return `<div class="app${pk ? ` in-perim h-${client(pk).hue}` : ""}">
     <header class="top">
@@ -63,7 +69,7 @@ function comp(S) {
       <span class="bell">${ic("bell")}</span>
       <span class="me"><span class="mav">CF</span><span class="mt"><b>Avv. Chiara Ferri</b><small>Titolare</small></span></span>
     </header>
-    <div class="shell"><nav class="side" aria-label="Menu">${nav}</nav>${page(S)}</div>
+    <div class="shell"><nav class="side" aria-label="Menu">${nav}</nav>${page(S)}</div>${sheet}
     ${S.comp.toast ? `<div class="toast">${ic("circle-check")}<span>${esc(S.comp.toast)}</span></div>` : ""}
   </div>`;
 }
@@ -479,5 +485,11 @@ function screen(S) {
   }
 }
 
-return { comp, compWho, phone, phoneWho };
+// For the engine: a menu item hidden under «Altro» is reached by opening «Altro» first.
+function via(t) {
+  const k = t.startsWith("nav-") ? t.slice(4) : null;
+  return k && EXTRA.includes(k) ? { t: "nav-more", open: (S) => { S.comp.more = S.comp.route; } } : null;
+}
+
+return { comp, compWho, phone, phoneWho, via };
 })();

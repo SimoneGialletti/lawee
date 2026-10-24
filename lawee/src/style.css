@@ -168,6 +168,12 @@ p { margin: 0; }
 .nv.on { background: var(--bg-selected); color: var(--accent-text); font-weight: 600; }
 .nv.on .ic { color: var(--accent-text); }
 .nv .ns { display: none; }
+.nv.more { display: none; }
+.msheet { position: absolute; inset: 56px 0 0; z-index: 6; background: var(--bg-overlay); display: grid; align-items: end; justify-items: end; padding: 0 8px 62px; animation: fadein .18s var(--ease); }
+.mpanel { width: min(240px, 100%); background: var(--bg-surface); border: 1px solid var(--border-1); border-radius: 12px; box-shadow: var(--shadow-3); padding: 6px; display: grid; gap: 2px; }
+.mpanel .nv { display: flex; flex-direction: row; justify-content: flex-start; height: 40px; font-size: 14px; }
+.mpanel .nv .nl { display: block; }
+.mpanel .nv .ns { display: none; }
 .nb { margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--accent); color: #fff; font: 600 11px/20px var(--f-sans); text-align: center; }
 .page { position: relative; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 24px 28px 40px; }
 .page > * + * { margin-top: 16px; }
@@ -610,13 +616,16 @@ a.btn { text-decoration: none; }
 }
 @container app (max-width: 780px) {
   .shell { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
-  .side { grid-row: 2; grid-auto-flow: column; grid-auto-columns: max-content; overflow-x: auto; padding: 4px 6px; border-right: 0; border-top: 1px solid var(--border-1); gap: 2px; scrollbar-width: none; }
+  .side { grid-row: 2; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); overflow: hidden; padding: 4px 6px; border-right: 0; border-top: 1px solid var(--border-1); gap: 2px; }
+  .side .nv.x { display: none; }
+  .side .nv.more { display: flex; }
   .side::-webkit-scrollbar { display: none; }
-  .nv { flex-direction: column; justify-content: center; gap: 3px; height: 50px; padding: 0 10px; font-size: 11px; }
-  .nv .ic { width: 18px; height: 18px; }
-  .nv .nl { display: none; }
-  .nv .ns { display: block; }
-  .nb { position: absolute; top: 3px; right: 6px; min-width: 16px; height: 16px; font-size: 10px; line-height: 16px; padding: 0 4px; }
+  .side .nv { flex-direction: column; justify-content: center; gap: 3px; height: 50px; padding: 0 2px; font-size: 11px; min-width: 0; }
+  .side .nv .ns { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .side .nv .ic { width: 18px; height: 18px; }
+  .side .nv .nl { display: none; }
+  .side .nv .ns { display: block; }
+  .nb { position: absolute; top: 3px; right: auto; left: calc(50% + 4px); min-width: 16px; height: 16px; font-size: 10px; line-height: 16px; padding: 0 4px; }
   .me .mt { display: none; }
   .top { gap: 10px; padding: 0 12px; }
   .page { padding: 16px 14px 28px; }

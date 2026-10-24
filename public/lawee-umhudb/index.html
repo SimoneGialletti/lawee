@@ -178,6 +178,12 @@ p { margin: 0; }
 .nv.on { background: var(--bg-selected); color: var(--accent-text); font-weight: 600; }
 .nv.on .ic { color: var(--accent-text); }
 .nv .ns { display: none; }
+.nv.more { display: none; }
+.msheet { position: absolute; inset: 56px 0 0; z-index: 6; background: var(--bg-overlay); display: grid; align-items: end; justify-items: end; padding: 0 8px 62px; animation: fadein .18s var(--ease); }
+.mpanel { width: min(240px, 100%); background: var(--bg-surface); border: 1px solid var(--border-1); border-radius: 12px; box-shadow: var(--shadow-3); padding: 6px; display: grid; gap: 2px; }
+.mpanel .nv { display: flex; flex-direction: row; justify-content: flex-start; height: 40px; font-size: 14px; }
+.mpanel .nv .nl { display: block; }
+.mpanel .nv .ns { display: none; }
 .nb { margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--accent); color: #fff; font: 600 11px/20px var(--f-sans); text-align: center; }
 .page { position: relative; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 24px 28px 40px; }
 .page > * + * { margin-top: 16px; }
@@ -620,13 +626,16 @@ a.btn { text-decoration: none; }
 }
 @container app (max-width: 780px) {
   .shell { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
-  .side { grid-row: 2; grid-auto-flow: column; grid-auto-columns: max-content; overflow-x: auto; padding: 4px 6px; border-right: 0; border-top: 1px solid var(--border-1); gap: 2px; scrollbar-width: none; }
+  .side { grid-row: 2; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); overflow: hidden; padding: 4px 6px; border-right: 0; border-top: 1px solid var(--border-1); gap: 2px; }
+  .side .nv.x { display: none; }
+  .side .nv.more { display: flex; }
   .side::-webkit-scrollbar { display: none; }
-  .nv { flex-direction: column; justify-content: center; gap: 3px; height: 50px; padding: 0 10px; font-size: 11px; }
-  .nv .ic { width: 18px; height: 18px; }
-  .nv .nl { display: none; }
-  .nv .ns { display: block; }
-  .nb { position: absolute; top: 3px; right: 6px; min-width: 16px; height: 16px; font-size: 10px; line-height: 16px; padding: 0 4px; }
+  .side .nv { flex-direction: column; justify-content: center; gap: 3px; height: 50px; padding: 0 2px; font-size: 11px; min-width: 0; }
+  .side .nv .ns { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .side .nv .ic { width: 18px; height: 18px; }
+  .side .nv .nl { display: none; }
+  .side .nv .ns { display: block; }
+  .nb { position: absolute; top: 3px; right: auto; left: calc(50% + 4px); min-width: 16px; height: 16px; font-size: 10px; line-height: 16px; padding: 0 4px; }
   .me .mt { display: none; }
   .top { gap: 10px; padding: 0 12px; }
   .page { padding: 16px 14px 28px; }
@@ -867,6 +876,11 @@ body.narrow #stage[data-phone="0"] #sline { top: 8px; }
 <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /> <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></symbol>
 <symbol id="i-external-link" viewBox="0 0 24 24"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></symbol>
 <symbol id="i-list-checks" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4" /> <path d="m3 7 2 2 4-4" /> <path d="M13 6h8" /> <path d="M13 12h8" /> <path d="M13 18h8" /></symbol>
+<symbol id="i-ellipsis" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1" /> <circle cx="19" cy="12" r="1" /> <circle cx="5" cy="12" r="1" /></symbol>
+<symbol id="i-volume-2" viewBox="0 0 24 24"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" /> <path d="M16 9a5 5 0 0 1 0 6" /> <path d="M19.364 18.364a9 9 0 0 0 0-12.728" /></symbol>
+<symbol id="i-volume-x" viewBox="0 0 24 24"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" /> <line x1="22" x2="16" y1="9" y2="15" /> <line x1="16" x2="22" y1="9" y2="15" /></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /> <circle cx="9" cy="9" r="2" /> <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></symbol>
+<symbol id="i-check-check" viewBox="0 0 24 24"><path d="M18 6 7 17l-5-5" /> <path d="m22 10-7.5 7.5L13 16" /></symbol>
 <symbol id="lawee-mark" viewBox="0 0 543 543"><g fill="currentColor" stroke="none"><path d="M357.68 437.829C357.68 492.662 315.326 538.184 260.635 542.132L248.615 543V437.829H357.68Z"/><path d="M357.68 437.84C357.68 403.747 329.617 376.109 295.524 376.109V437.84H357.68Z"/><path d="M295.52 376.109C274.579 376.863 257.992 394.057 257.992 415.011V418.406H295.52V376.109Z"/><path d="M501.132 142.948C449.661 57.3029 355.847 0 248.648 0V334.946H543.007V294.358C543.007 248.939 532.72 205.923 514.349 167.512C516.963 175.419 518.375 183.851 518.375 192.606C518.375 237.747 480.834 274.341 434.524 274.341C388.214 274.341 350.673 237.747 350.673 192.606C350.673 147.464 388.214 110.87 434.524 110.87C461.673 110.87 485.808 123.446 501.132 142.948Z" fill-rule="evenodd" clip-rule="evenodd"/><path d="M248.621 43.375C111.312 43.375 0 155.846 0 293.156C0 430.465 111.312 542.936 248.621 542.936V43.375Z"/><path d="M258 418H290C290 426.837 282.837 434 274 434C265.163 434 258 426.837 258 418Z"/></g></symbol>
 </defs></svg>
 
@@ -936,6 +950,7 @@ function inp(S, t, v, ph, o = {}) {
 // ─── The computer ────────────────────────────────────────────────────────────
 const NAV = [["today", "sun", "Oggi"], ["inbox", "inbox", "Inbox"], ["clients", "briefcase", "Clienti"], ["assist", "sparkles", "Assistente"], ["agenda", "calendar", "Agenda"], ["fees", "receipt", "Preventivi e parcelle", "Parcelle"], ["settings", "settings", "Impostazioni"], ["box", "server", "Lawee by Monolite", "Il box"]];
 const ROUTE_NAV = { client: "clients" };
+const EXTRA = ["clients", "fees", "settings", "box"];
 function compWho() {
   const p = D().people.chiara;
   return `<span class="wav">CF</span><span>Il computer di <b>${esc(p.short)}</b> · ${esc(p.name)}, ${esc(p.caption)}</span>`;
@@ -951,10 +966,15 @@ function comp(S) {
   if (r === "login") return `<div class="app bare">${login(S)}</div>`;
   if (r === "slate") return `<div class="app bare">${slate(S)}</div>`;
   const on = ROUTE_NAV[r] ?? r;
-  const nav = NAV.map(([k, i, l, short]) => {
+  const item = ([k, i, l, short]) => {
     const b = k === "inbox" ? inboxCount(S) : 0;
-    return `<div class="nv${on === k ? " on" : ""}"${T(`nav-${k}`)}>${ic(i)}<span class="nl">${l}</span><span class="ns">${short || l}</span>${b ? `<span class="nb">${b}</span>` : ""}</div>`;
-  }).join("");
+    return `<div class="nv${on === k ? " on" : ""}${EXTRA.includes(k) ? " x" : ""}"${T(`nav-${k}`)}>${ic(i)}<span class="nl">${l}</span><span class="ns">${short || l}</span>${b ? `<span class="nb">${b}</span>` : ""}</div>`;
+  };
+  // On a narrow screen the menu is a bottom bar of five: the others sit under «Altro», as the design system asks.
+  const more = S.comp.more && S.comp.more === r;
+  const cur = NAV.find(([k]) => k === on && EXTRA.includes(k));
+  const nav = NAV.map(item).join("") + `<div class="nv more${more || cur ? " on" : ""}"${T("nav-more")}>${ic(cur ? cur[1] : "ellipsis")}<span class="ns">${cur ? cur[3] || cur[2] : "Altro"}</span></div>`;
+  const sheet = more ? `<div class="msheet"><div class="mpanel">${NAV.filter(([k]) => EXTRA.includes(k)).map(item).join("")}</div></div>` : "";
   const pk = perimOf(S);
   return `<div class="app${pk ? ` in-perim h-${client(pk).hue}` : ""}">
     <header class="top">
@@ -966,7 +986,7 @@ function comp(S) {
       <span class="bell">${ic("bell")}</span>
       <span class="me"><span class="mav">CF</span><span class="mt"><b>Avv. Chiara Ferri</b><small>Titolare</small></span></span>
     </header>
-    <div class="shell"><nav class="side" aria-label="Menu">${nav}</nav>${page(S)}</div>
+    <div class="shell"><nav class="side" aria-label="Menu">${nav}</nav>${page(S)}</div>${sheet}
     ${S.comp.toast ? `<div class="toast">${ic("circle-check")}<span>${esc(S.comp.toast)}</span></div>` : ""}
   </div>`;
 }
@@ -1382,7 +1402,13 @@ function screen(S) {
   }
 }
 
-return { comp, compWho, phone, phoneWho };
+// For the engine: a menu item hidden under «Altro» is reached by opening «Altro» first.
+function via(t) {
+  const k = t.startsWith("nav-") ? t.slice(4) : null;
+  return k && EXTRA.includes(k) ? { t: "nav-more", open: (S) => { S.comp.more = S.comp.route; } } : null;
+}
+
+return { comp, compWho, phone, phoneWho, via };
 })();
 
 // ─── The story: a Thursday morning at Studio Legale Ferri, 22 October 2026 ──────
@@ -1898,7 +1924,7 @@ function closeCard(run) {
 const cursor = $("#cursor");
 let cpos = null;
 function cursorHide() { cursor.classList.remove("on"); }
-const findT = (t) => document.querySelector(`[data-t="${t}"]`);
+const findT = (t) => { const all = [...document.querySelectorAll(`[data-t="${t}"]`)]; return all.find((e) => e.getClientRects().length) || all[0]; };
 async function point(t, tok, view) {
   let el = findT(t);
   const pane = view || (el ? (el.closest("#phone") ? "phone" : "comp") : null);
@@ -1907,6 +1933,16 @@ async function point(t, tok, view) {
     if (!(await sleep(380, tok))) return null;
   }
   el = findT(t);
+  // A target the product keeps behind another control (a menu under «Altro»): open that first.
+  const hop = (!el || !el.getClientRects().length) && P.via ? P.via(t, S) : null;
+  if (hop && hop.t !== t) {
+    if (!(await point(hop.t, tok, view))) return null;
+    tap();
+    if (!(await sleep(120, tok))) return null;
+    hop.open(S); render();
+    if (!(await sleep(300, tok))) return null;
+    el = findT(t);
+  }
   if (!el || !el.getClientRects().length) { MISSING.add(`${R.step + 1}:${t}`); return null; }
   // Bring it into view inside whatever scrolls around it (the page, a list, the sideways menu), and wait for the
   // scroll to settle before the cursor moves.
